@@ -126,10 +126,12 @@ function drawPaddle() {
 function drawBricks() {
     for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
-            let brick = bricks[c][r];
-            if (brick.status == 1) {
+            const { x, y, status } = bricks[c][r];  // this syntax is deconstruction
+            // creates local variable with properties
+
+            if (status == 1) {
                 ctx.beginPath();
-                ctx.rect(brick.x, brick.y, brickWidth, brickHeight);
+                ctx.rect(x, y, brickWidth, brickHeight);
 
                 let gradient = ctx.createLinearGradient(0, 0, 720, 0);
                 gradient.addColorStop(0, 'red');
