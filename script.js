@@ -63,8 +63,18 @@ function draw() {
     }
 
     // For top/bottom canvas walls
-    if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+    if (y + dy < ballRadius) {
         dy = -dy;
+    }
+    else if(y + dy > canvas.height-ballRadius) {
+        if(x > paddleX && x < paddleX + paddleWidth) {
+            dy = -dy;
+        }
+        else {
+            alert("GAME OVER");
+            document.location.reload();
+            clearInterval(interval); // Needed for Chrome to end game
+        }
     }
 
     if(rightPressed) {
@@ -84,4 +94,4 @@ function draw() {
     y += dy;
 }
 
-setInterval(draw, 10);
+let interval = setInterval(draw, 10);
