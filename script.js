@@ -35,9 +35,12 @@ let lives = 3;
 for (let c = 0; c < brickColumnCount; c++) {
     bricks[c] = [];
     for (let r = 0; r < brickRowCount; r++) {
+        let brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+        let brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+
         bricks[c][r] = {
-            x: 0,
-            y: 0,
+            x: brickX,
+            y: brickY,
             status: 1
         };
     }
@@ -123,13 +126,10 @@ function drawPaddle() {
 function drawBricks() {
     for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
-            if (bricks[c][r].status == 1) {
-                let brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-                let brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-                bricks[c][r].x = brickX;
-                bricks[c][r].y = brickY;
+            let brick = bricks[c][r];
+            if (brick.status == 1) {
                 ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                ctx.rect(brick.x, brick.y, brickWidth, brickHeight);
 
                 let gradient = ctx.createLinearGradient(0, 0, 720, 0);
                 gradient.addColorStop(0, 'red');
@@ -173,7 +173,6 @@ function draw() {
             if (!lives) {
                 alert("GAME OVER");
                 document.location.reload();
-                // Needed for Chrome to end game
             } else {
                 x = canvas.width / 2;
                 y = canvas.height - 30;
