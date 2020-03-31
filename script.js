@@ -28,6 +28,7 @@ let brickOffsetLeft = 30;
 const bricks = [];
 
 let score = 0;
+let lives = 3;
 
 for (let c = 0; c < brickColumnCount; c++) {
     bricks[c] = [];
@@ -46,8 +47,8 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
 
 function mouseMoveHandler(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > 0 && relativeX < canvas.width) {
-        paddleX = relativeX - paddleWidth/2;
+    if (relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth / 2;
     }
 }
 
@@ -76,10 +77,9 @@ function collisionDetection() {
                     dy = -dy;
                     b.status = 0;
                     score++;
-                    if(score == brickRowCount*brickColumnCount) {
+                    if (score == brickRowCount * brickColumnCount) {
                         alert("YOU WIN, CONGRATULATIONS!");
                         document.location.reload();
-                        clearInterval(interval); // Needed for Chrome to end game
                     }
                 }
             }
@@ -90,7 +90,13 @@ function collisionDetection() {
 function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
-    ctx.fillText("Score: "+score, 8, 20);
+    ctx.fillText("Score: " + score, 8, 20);
+}
+
+function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
 function drawBall() {
@@ -133,6 +139,7 @@ function draw() {
     drawBall();
     drawPaddle();
     drawScore();
+    drawLives();
     collisionDetection();
 
     // For left/right canvas walls
@@ -147,9 +154,18 @@ function draw() {
         if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
         } else {
-            alert("GAME OVER");
-            document.location.reload();
-            clearInterval(interval); // Needed for Chrome to end game
+            lives--;
+            if (!lives) {
+                alert("GAME OVER");
+                document.location.reload();
+                 // Needed for Chrome to end game
+            } else {
+                x = canvas.width / 2;
+                y = canvas.height - 30;
+                dx = 2;
+                dy = -2;
+                paddleX = (canvas.width - paddleWidth) / 2;
+            }
         }
     }
 
@@ -167,6 +183,7 @@ function draw() {
 
     x += dx;
     y += dy;
+    requestAnimationFrame(draw);
 }
 
-let interval = setInterval(draw, 10);
+draw();
