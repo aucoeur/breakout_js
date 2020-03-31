@@ -9,6 +9,8 @@ let dx = 2;
 let dy = -2;
 
 let ballRadius = 10;
+let ballinnerRadius = 5;
+let ballouterRadius = 70;
 
 let paddleHeight = 10;
 let paddleWidth = 75;
@@ -89,28 +91,31 @@ function collisionDetection() {
 
 function drawScore() {
     ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "#000000";
     ctx.fillText("Score: " + score, 8, 20);
 }
 
 function drawLives() {
     ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "#000000";
     ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle ="#ffffff";
+    ctx.strokeStyle = "#d400ff";
+    ctx.lineWidth = 2;
     ctx.fill();
+    ctx.stroke();
     ctx.closePath();
 }
 
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "#6a2500";
     ctx.fill();
     ctx.closePath();
 }
@@ -125,7 +130,17 @@ function drawBricks() {
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = "#0095DD";
+
+                let gradient = ctx.createLinearGradient(0, 0, 720, 0);
+                gradient.addColorStop(0, 'red');
+                gradient.addColorStop(1 / 6, 'orange');
+                gradient.addColorStop(2 / 6, 'yellow');
+                gradient.addColorStop(3 / 6, 'green');
+                gradient.addColorStop(4 / 6, 'blue');
+                gradient.addColorStop(5 / 6, 'indigo');
+                gradient.addColorStop(1, 'violet');
+                ctx.fillStyle = gradient;
+
                 ctx.fill();
                 ctx.closePath();
             }
@@ -158,7 +173,7 @@ function draw() {
             if (!lives) {
                 alert("GAME OVER");
                 document.location.reload();
-                 // Needed for Chrome to end game
+                // Needed for Chrome to end game
             } else {
                 x = canvas.width / 2;
                 y = canvas.height - 30;
