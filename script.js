@@ -19,11 +19,11 @@ let paddleX = (canvas.width - paddleWidth) / 2
 let rightPressed = false;
 let leftPressed = false;
 
-let brickRowCount = 3;
-let brickColumnCount = 5;
-let brickWidth = 75;
-let brickHeight = 20;
-let brickPadding = 10;
+let brickRowCount = 4;
+let brickColumnCount = 6;
+let brickWidth = 62.5;
+let brickHeight = 15;
+let brickPadding = 8.5;
 let brickOffsetTop = 30;
 let brickOffsetLeft = 30;
 
@@ -44,7 +44,6 @@ for (let c = 0; c < brickColumnCount; c++) {
             x: brickX,
             y: brickY,
             status: 1,
-
             // color: brickColors[r]  // colors by row
             color: brickColors[c] // color by colums
         };
