@@ -27,7 +27,7 @@ let brickPadding = 10;
 let brickOffsetTop = 30;
 let brickOffsetLeft = 30;
 
-const brickColors = ["#343837", "#03719C", "#0F9B8E"] 
+const brickColors = ["#343837", "#03719C", "#0F9B8E", "#1F3B4D", "#017374"] 
 
 const bricks = [];
 
@@ -44,8 +44,9 @@ for (let c = 0; c < brickColumnCount; c++) {
             x: brickX,
             y: brickY,
             status: 1,
-            // colors by row
-            color: brickColors[r]
+
+            // color: brickColors[r]  // colors by row
+            color: brickColors[c] // color by colums
         };
     }
 }
@@ -121,9 +122,11 @@ function drawBall() {
 
 function drawPaddle() {
     ctx.beginPath();
-    ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#6a2500";
+    ctx.rect(paddleX, canvas.height - (paddleHeight+2), paddleWidth, paddleHeight);
+    ctx.strokeStyle = "#000000"
+    ctx.fillStyle = "#D0FEFE";
     ctx.fill();
+    ctx.stroke();
     ctx.closePath();
 }
 
