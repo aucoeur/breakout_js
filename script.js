@@ -27,6 +27,8 @@ let brickPadding = 10;
 let brickOffsetTop = 30;
 let brickOffsetLeft = 30;
 
+const brickColors = ["#343837", "#03719C", "#0F9B8E"] 
+
 const bricks = [];
 
 let score = 0;
@@ -41,7 +43,9 @@ for (let c = 0; c < brickColumnCount; c++) {
         bricks[c][r] = {
             x: brickX,
             y: brickY,
-            status: 1
+            status: 1,
+            // colors by row
+            color: brickColors[r]
         };
     }
 }
@@ -126,22 +130,27 @@ function drawPaddle() {
 function drawBricks() {
     for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
-            const { x, y, status } = bricks[c][r];  // this syntax is deconstruction
+            const { x, y, status, color } = bricks[c][r];  // this syntax is deconstruction
             // creates local variable with properties
 
             if (status == 1) {
                 ctx.beginPath();
                 ctx.rect(x, y, brickWidth, brickHeight);
 
-                let gradient = ctx.createLinearGradient(0, 0, 720, 0);
-                gradient.addColorStop(0, 'red');
-                gradient.addColorStop(1 / 6, 'orange');
-                gradient.addColorStop(2 / 6, 'yellow');
-                gradient.addColorStop(3 / 6, 'green');
-                gradient.addColorStop(4 / 6, 'blue');
-                gradient.addColorStop(5 / 6, 'indigo');
-                gradient.addColorStop(1, 'violet');
-                ctx.fillStyle = gradient;
+                // Gradient Color
+                // let gradient = ctx.createLinearGradient(0, 0, 720, 0);
+                // gradient.addColorStop(0, 'red');
+                // gradient.addColorStop(1 / 6, 'orange');
+                // gradient.addColorStop(2 / 6, 'yellow');
+                // gradient.addColorStop(3 / 6, 'green');
+                // gradient.addColorStop(4 / 6, 'blue');
+                // gradient.addColorStop(5 / 6, 'indigo');
+                // gradient.addColorStop(1, 'violet');
+                // ctx.fillStyle = gradient;
+
+                // Different color by row
+                ctx.fillStyle = color;
+
 
                 ctx.fill();
                 ctx.closePath();
