@@ -166,13 +166,13 @@ function collisionDetection() {
 
 function drawScore() {
   ctx.font = font;
-  ctx.fillStyle = objectColor;
+  ctx.fillStyle = '#000000';
   ctx.fillText(`Score: ${score}`, 8, 20);
 }
 
 function drawLives() {
   ctx.font = font;
-  ctx.fillStyle = objectColor;
+  ctx.fillStyle = '#000000';
   ctx.fillText(`Lives: ${lives}`, canvasWidth - 65, 20);
 }
 
