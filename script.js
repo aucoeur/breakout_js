@@ -1,23 +1,8 @@
-// **************************************************************
-
-// DOM references
-
-// **************************************************************
-
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 
-// **************************************************************
-
-// Variables
-
-// **************************************************************
-
-// --------------------------------------------------------------
-// Constants
-// --------------------------------------------------------------
-
 const font = '16px Arial';
+const black = '#000000';
 
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
@@ -38,14 +23,8 @@ const paddleXStart = (canvasWidth - paddleWidth) / 2;
 const PI2 = Math.PI * 2;
 
 const brickColors = ['#343837', '#03719C', '#0F9B8E', '#1F3B4D', '#017374'];
-const objectColor = '#0095DD';
-
-// --------------------------------------------------------------
-// Variables
-// --------------------------------------------------------------
 
 // Initialize the position of the ball and paddle
-
 const ball = {
   x: 0,
   y: 0,
@@ -63,10 +42,8 @@ let lives = 3;
 let rightPressed = false;
 let leftPressed = false;
 
-// --------------------------------------------------------------
-// Setup Bricks Array
-// --------------------------------------------------------------
 
+// Setup Bricks Array
 const bricks = [];
 
 function initBricks() {
@@ -89,12 +66,7 @@ function initBricks() {
 
 initBricks();
 
-// **************************************************************
-
 // Functions
-
-// **************************************************************
-
 function drawBall() {
   ctx.beginPath();
   ctx.arc(ball.x, ball.y, ballRadius, 0, PI2);
@@ -166,13 +138,13 @@ function collisionDetection() {
 
 function drawScore() {
   ctx.font = font;
-  ctx.fillStyle = '#000000';
+  ctx.fillStyle = black;
   ctx.fillText(`Score: ${score}`, 8, 20);
 }
 
 function drawLives() {
   ctx.font = font;
-  ctx.fillStyle = '#000000';
+  ctx.fillStyle = black;
   ctx.fillText(`Lives: ${lives}`, canvasWidth - 65, 20);
 }
 
@@ -230,10 +202,8 @@ function collisionsWithCanvasAndPaddle() {
     }
   }
 }
-// --------------------------------------------------------------
-// Game Loop
-// --------------------------------------------------------------
 
+// Game Loop
 function draw() {
   // Clear the canvas
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -252,10 +222,8 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-// --------------------------------------------------------------
-// Event Listeners
-// --------------------------------------------------------------
 
+// Event Listeners
 function keyDownHandler(e) {
   if (e.keyCode === 39) {
     rightPressed = true;
@@ -279,29 +247,10 @@ function mouseMoveHandler(e) {
   }
 }
 
-// **************************************************************
 // Register Events
-// **************************************************************
-
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
 
-
-// **************************************************************
 // Starts program entry point
-// **************************************************************
-
 draw();
-
-/*
-
-* Make these into constants defined at the top.
-
-** This block of code is repeated better to make a function for this.
-
-*** This block of code would be better as a function.
-
-**** Use objects to encapsulate code
-
-*/
