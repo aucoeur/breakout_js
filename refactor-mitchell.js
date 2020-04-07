@@ -17,6 +17,11 @@ const ctx = canvas.getContext('2d');
 // Constants
 // --------------------------------------------------------------
 
+const font = '16px Arial';
+
+const canvasWidth = canvas.width;
+const canvasHeight = canvas.height;
+
 const ballRadius = 10;
 const paddleHeight = 10;
 const paddleWidth = 75;
@@ -28,7 +33,7 @@ const brickPadding = 10;
 const brickOffsetTop = 30;
 const brickOffsetLeft = 30;
 
-const paddleXStart = (canvas.width - paddleWidth) / 2;
+const paddleXStart = (canvasWidth - paddleWidth) / 2;
 
 const PI2 = Math.PI * 2;
 const objectColor = '#0095DD';
@@ -37,9 +42,7 @@ const objectColor = '#0095DD';
 // Variables
 // --------------------------------------------------------------
 
-// ** Initialize the position of the ball and paddle
-// ** and set the ball speed and direction
-// **** A Ball Object would be good.
+// Initialize the position of the ball and paddle
 
 const ball = {
   x: 0,
@@ -64,16 +67,23 @@ let leftPressed = false;
 
 const bricks = [];
 
-for (let c = 0; c < brickColumnCount; c += 1) {
-  bricks[c] = [];
-  for (let r = 0; r < brickRowCount; r += 1) {
-    bricks[c][r] = {
-      x: 0,
-      y: 0,
-      status: 1,
-    };
+function initBricks() {
+  for (let c = 0; c < brickColumnCount; c += 1) {
+    bricks[c] = [];
+    for (let r = 0; r < brickRowCount; r += 1) {
+      bricks[c][r] = {
+        x: 0,
+        y: 0,
+        status: 1,
+      };
+
+      bricks[c][r].x = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+      bricks[c][r].y = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+    }
   }
 }
+
+initBricks();
 
 // **************************************************************
 
@@ -84,15 +94,15 @@ for (let c = 0; c < brickColumnCount; c += 1) {
 function drawBall() {
   ctx.beginPath();
   ctx.arc(ball.x, ball.y, ballRadius, 0, PI2);
-  ctx.fillStyle = objectColor; // * Could be good as a constant
+  ctx.fillStyle = objectColor;
   ctx.fill();
   ctx.closePath();
 }
 
 function drawPaddle() {
   ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = objectColor; // * Could be good as a constant
+  ctx.rect(paddleX, canvasHeight - paddleHeight, paddleWidth, paddleHeight);
+  ctx.fillStyle = objectColor;
   ctx.fill();
   ctx.closePath();
 }
@@ -100,16 +110,11 @@ function drawPaddle() {
 function drawBricks() {
   for (let c = 0; c < brickColumnCount; c += 1) {
     for (let r = 0; r < brickRowCount; r += 1) {
-      if (bricks[c][r].status === 1) {
-        // **** This block should really be part of the brick initialization
-        const brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-        const brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-        bricks[c][r].x = brickX;
-        bricks[c][r].y = brickY;
-
+      const brick = bricks[c][r];
+      if (brick.status === 1) {
         ctx.beginPath();
-        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = objectColor; // * Could be good as a constant
+        ctx.rect(brick.x, brick.y, brickWidth, brickHeight);
+        ctx.fillStyle = objectColor;
         ctx.fill();
         ctx.closePath();
       }
@@ -138,21 +143,20 @@ function collisionDetection() {
 }
 
 function drawScore() {
-  ctx.font = '16px Arial'; // * Could be good as a constant
-  ctx.fillStyle = objectColor; // * Could be good as a constant
+  ctx.font = font;
+  ctx.fillStyle = objectColor;
   ctx.fillText(`Score: ${score}`, 8, 20);
 }
 
 function drawLives() {
-  ctx.font = '16px Arial'; // * Could be good as a constant
-  ctx.fillStyle = objectColor; // * Could be good as a constant
-  // * canvas.width might be better as a constants
-  ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
+  ctx.font = font;
+  ctx.fillStyle = objectColor;
+  ctx.fillText(`Lives: ${lives}`, canvasWidth - 65, 20);
 }
 
 function resetBallAndPaddle() {
-  ball.x = canvas.width / 2;
-  ball.y = canvas.height - 30;
+  ball.x = canvasWidth / 2;
+  ball.y = canvasHeight - 30;
   ball.dx = 2;
   ball.dy = -2;
   paddleX = paddleXStart;
@@ -165,8 +169,7 @@ function moveBall() {
 
 function movePaddle() {
   // Check for arrow keys
-  // *** Better as a function
-  if (rightPressed && paddleX < canvas.width - paddleWidth) {
+  if (rightPressed && paddleX < canvasWidth - paddleWidth) {
     paddleX += 7;
   } else if (leftPressed && paddleX > 0) {
     paddleX -= 7;
@@ -175,7 +178,7 @@ function movePaddle() {
 
 function collisionsWithCanvasAndPaddle() {
   // Bounce the ball off the left and right of the canvas
-  if (ball.x + ball.dx > canvas.width - ballRadius || ball.x + ball.dx < ballRadius) {
+  if (ball.x + ball.dx > canvasWidth - ballRadius || ball.x + ball.dx < ballRadius) {
     ball.dx = -ball.dx;
   }
 
@@ -183,7 +186,7 @@ function collisionsWithCanvasAndPaddle() {
   if (ball.y + ball.dy < ballRadius) {
     // hit the top
     ball.dy = -ball.dy;
-  } else if (ball.y + ball.dy > canvas.height - ballRadius) {
+  } else if (ball.y + ball.dy > canvasHeight - ballRadius) {
     // hit the bottom
     if (ball.x > paddleX && ball.x < paddleX + paddleWidth) {
       // Hit the paddle
@@ -211,8 +214,7 @@ function collisionsWithCanvasAndPaddle() {
 
 function draw() {
   // Clear the canvas
-  // * canvas.width, and canvas.height might be better as constants
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   // Call helper functions
   drawBricks();
   drawBall();
@@ -250,7 +252,7 @@ function keyUpHandler(e) {
 
 function mouseMoveHandler(e) {
   const relativeX = e.clientX - canvas.offsetLeft;
-  if (relativeX > 0 && relativeX < canvas.width) {
+  if (relativeX > 0 && relativeX < canvasWidth) {
     paddleX = relativeX - paddleWidth / 2;
   }
 }
