@@ -1,3 +1,7 @@
+import Ball from './ball';
+import Brick from './brick';
+import Paddle from './paddle';
+
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -7,13 +11,9 @@ const black = '#000000';
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
 
-const ballRadius = 10;
-const paddleHeight = 10;
-const paddleWidth = 75;
 const brickRowCount = 3;
 const brickColumnCount = 5;
-const brickWidth = 75;
-const brickHeight = 20;
+
 const brickPadding = 10;
 const brickOffsetTop = 30;
 const brickOffsetLeft = 30;
@@ -24,13 +24,7 @@ const PI2 = Math.PI * 2;
 
 const brickColors = ['#343837', '#03719C', '#0F9B8E', '#1F3B4D', '#017374'];
 
-// Initialize the position of the ball and paddle
-const ball = {
-  x: 0,
-  y: 0,
-  dx: 0,
-  dy: 0,
-};
+let ball = new Ball();
 
 let paddleX;
 
@@ -45,6 +39,10 @@ let leftPressed = false;
 
 // Setup Bricks Array
 const bricks = [];
+
+
+
+// Functions
 
 function initBricks() {
   for (let c = 0; c < brickColumnCount; c += 1) {
@@ -66,51 +64,15 @@ function initBricks() {
 
 initBricks();
 
-// Functions
-function drawBall() {
-  ctx.beginPath();
-  ctx.arc(ball.x, ball.y, ballRadius, 0, PI2);
-  ctx.fillStyle = '#ffffff';
-  ctx.strokeStyle = '#d400ff';
-  ctx.lineWidth = 2;
-  ctx.fill();
-  ctx.stroke();
-  ctx.closePath();
-}
 
-function drawPaddle() {
-  ctx.beginPath();
-  ctx.rect(paddleX, canvasHeight - (paddleHeight + 2), paddleWidth, paddleHeight);
-  ctx.strokeStyle = '#000000';
-  ctx.fillStyle = '#D0FEFE';
-  ctx.fill();
-  ctx.stroke();
-  ctx.closePath();
-}
+
 
 function drawBricks() {
   for (let c = 0; c < brickColumnCount; c += 1) {
     for (let r = 0; r < brickRowCount; r += 1) {
       const brick = bricks[c][r];
       if (brick.status === 1) {
-        ctx.beginPath();
-        ctx.rect(brick.x, brick.y, brickWidth, brickHeight);
 
-        // Gradient Color
-        // let gradient = ctx.createLinearGradient(0, 0, 720, 0);
-        // gradient.addColorStop(0, 'red');
-        // gradient.addColorStop(1 / 6, 'orange');
-        // gradient.addColorStop(2 / 6, 'yellow');
-        // gradient.addColorStop(3 / 6, 'green');
-        // gradient.addColorStop(4 / 6, 'blue');
-        // gradient.addColorStop(5 / 6, 'indigo');
-        // gradient.addColorStop(1, 'violet');
-        // ctx.fillStyle = gradient;
-
-        // Different color by row
-        ctx.fillStyle = brick.color;
-        ctx.fill();
-        ctx.closePath();
       }
     }
   }
@@ -156,10 +118,7 @@ function resetBallAndPaddle() {
   paddleX = paddleXStart;
 }
 
-function moveBall() {
-  ball.x += ball.dx;
-  ball.y += ball.dy;
-}
+
 
 function movePaddle() {
   // Check for arrow keys
