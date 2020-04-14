@@ -1,5 +1,6 @@
 import Ball from './ball.js';
 import Brick from './brick.js';
+import Bricks from './bricks.js';
 import Paddle from './paddle.js';
 import Score from './score.js';
 import Lives from './lives.js';
@@ -20,8 +21,8 @@ const brickOffsetLeft = 30;
 
 const paddleHeight = 10;
 const paddleWidth = 75;
-const paddleXStart = (canvas.width - paddleWidth) / 2;
-const paddleYStart = (canvas.height - 12);
+const padXStart = (canvas.width - paddleWidth) / 2;
+const padYStart = (canvas.height - 12);
 const paddleColor = '#D0FEFE';
 
 const black = '#000000';
@@ -30,7 +31,7 @@ const brickColors = ['#343837', '#03719C', '#0F9B8E', '#1F3B4D', '#017374'];
 const livesPosition = canvasWidth - 65;
 
 const ball = new Ball();
-const paddle = new Paddle(paddleXStart, paddleYStart, paddleWidth, paddleHeight, black, paddleColor);
+const paddle = new Paddle(padXStart, padYStart, paddleWidth, paddleHeight, black, paddleColor);
 
 resetBallAndPaddle();
 
@@ -40,47 +41,19 @@ const lives = new Lives(0, livesPosition, 3, black);
 let rightPressed = false;
 let leftPressed = false;
 
-
 // Setup Bricks Array
-const bricks = [];
-
-// Functions
-
-function initBricks() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    bricks[c] = [];
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-      const brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-
-      bricks[c][r] = new Brick(brickX, brickY, brickWidth, brickHeight, brickColors[c]);
-    }
-  }
-}
-
-initBricks();
-
-function drawBricks() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const brick = bricks[c][r];
-      if (brick.status === 1) {
-        brick.render(ctx);
-      }
-    }
-  }
-}
+const bricks = new Bricks(brickColumnCount, brickRowCount);
 
 function collisionDetection() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const b = bricks[c][r];
+  for (let c = 0; c < bricks.cols; c += 1) {
+    for (let r = 0; r < bricks.rows; r += 1) {
+      const b = bricks.bricks[c][r];
       if (b.status === 1) {
         if (ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight) {
           ball.dy = -ball.dy;
           b.status = 0;
           score.increase();
-          if (score === brickRowCount * brickColumnCount) {
+          if (score === bricks.rows * bricks.cols) {
             // eslint-disable-next-line no-alert
             // alert('YOU WIN, CONGRATULATIONS!'); // * Could be good as a constant
             document.location.reload();
@@ -105,9 +78,8 @@ function resetBallAndPaddle() {
   ball.y = canvasHeight - 30;
   ball.dx = 2;
   ball.dy = -2;
-  paddle.x = paddleXStart;
+  paddle.x = padXStart;
 }
-
 
 function collisionsWithCanvasAndPaddle() {
   // Bounce the ball off the left and right of the canvas
@@ -151,7 +123,7 @@ function draw() {
   paddle.render(ctx);
   score.render(ctx);
   lives.render(ctx);
-  drawBricks();
+  bricks.render(ctx);
   collisionDetection();
   ball.move(ctx);
   movePaddle();
