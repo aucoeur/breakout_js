@@ -1,7 +1,8 @@
-class Lives {
+import Sprite from './sprite.js';
+
+class Lives extends Sprite {
   constructor(x, y, lives = 3, color = '#000000', font = '16px Arial') {
-    this.x = x;
-    this.y = y;
+    super(x, y);
     this.lives = lives;
     this.color = color;
     this.font = font;

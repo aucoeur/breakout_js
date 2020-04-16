@@ -1,7 +1,8 @@
-class Brick {
+import Sprite from './sprite.js';
+
+class Brick extends Sprite {
   constructor(x, y, width = 75, height = 20, color) {
-    this.x = x;
-    this.y = y;
+    super(x, y);
     this.width = width;
     this.height = height;
     this.status = 1;

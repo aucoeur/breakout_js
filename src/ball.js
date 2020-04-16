@@ -1,7 +1,9 @@
-class Ball {
-  constructor(x = 0, y = 0, dx = 2, dy = -1, radius = 10, stroke = '#d400ff', color = '#ffffff') {
-    this.x = x;
-    this.y = y;
+import Sprite from './sprite.js';
+
+// new Ball(0, 0)
+class Ball extends Sprite {
+  constructor(x, y, dx = 2, dy = -1, radius = 10, stroke = '#d400ff', color = '#ffffff') {
+    super(x, y);
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;

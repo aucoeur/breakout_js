@@ -1,7 +1,8 @@
-class Paddle {
+import Sprite from './sprite.js';
+
+class Paddle extends Sprite {
   constructor(x, y, width = 75, height = 10, stroke, color) {
-    this.x = x;
-    this.y = y;
+    super(x, y);
     this.width = width;
     this.height = height;
     this.stroke = stroke;

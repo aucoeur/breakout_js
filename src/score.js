@@ -1,5 +1,8 @@
-class Score {
-  constructor(score = 0, color = '#000000', font = '16px Arial') {
+import Sprite from './sprite.js';
+
+class Score extends Sprite {
+  constructor(x, y, score = 0, color = '#000000', font = '16px Arial') {
+    super(x, y);
     this.score = score;
     this.color = color;
     this.font = font;

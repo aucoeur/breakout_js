@@ -1,3 +1,4 @@
+import Sprite from './sprite.js';
 import Ball from './ball.js';
 import Brick from './brick.js';
 import Bricks from './bricks.js';
