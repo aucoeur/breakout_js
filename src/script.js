@@ -1,10 +1,10 @@
-import Sprite from './sprite.js';
-import Ball from './ball.js';
-import Brick from './brick.js';
-import Bricks from './bricks.js';
-import Paddle from './paddle.js';
-import Score from './score.js';
-import Lives from './lives.js';
+import Sprite from './sprite';
+import Ball from './ball';
+import Brick from './brick';
+import Bricks from './bricks';
+import Paddle from './paddle';
+import Score from './score';
+import Lives from './lives';
 
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');

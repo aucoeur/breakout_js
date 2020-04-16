@@ -1,4 +1,4 @@
-import Sprite from './sprite.js';
+import Sprite from './sprite';
 
 class Lives extends Sprite {
   constructor(x, y, lives = 3, color = '#000000', font = '16px Arial') {

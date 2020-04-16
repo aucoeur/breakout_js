@@ -1,4 +1,4 @@
-import Sprite from './sprite.js';
+import Sprite from './sprite';
 
 // new Ball(0, 0)
 class Ball extends Sprite {
